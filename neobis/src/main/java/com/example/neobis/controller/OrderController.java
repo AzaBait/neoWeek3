@@ -1,8 +1,6 @@
 package com.example.neobis.controller;
 
-import com.example.neobis.dto.CarDto;
 import com.example.neobis.dto.OrderDto;
-import com.example.neobis.entity.Car;
 import com.example.neobis.entity.Order;
 import com.example.neobis.mapper.OrderMapper;
 import com.example.neobis.service.OrderService;

@@ -1,9 +1,7 @@
 package com.example.neobis.mapper;
 
 import com.example.neobis.dto.CarDto;
-import com.example.neobis.dto.UserDto;
 import com.example.neobis.entity.Car;
-import com.example.neobis.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

@@ -1,9 +1,7 @@
 package com.example.neobis.controller;
 
 import com.example.neobis.dto.CarDto;
-import com.example.neobis.dto.UserDto;
 import com.example.neobis.entity.Car;
-import com.example.neobis.entity.User;
 import com.example.neobis.mapper.CarMapper;
 import com.example.neobis.service.CarService;
 import lombok.RequiredArgsConstructor;

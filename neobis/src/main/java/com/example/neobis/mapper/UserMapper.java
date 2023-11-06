@@ -4,7 +4,6 @@ import com.example.neobis.dto.UserDto;
 import com.example.neobis.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
