@@ -1,9 +1,12 @@
-package com.example.neobis.service;
+package com.example.neobis.service.impl;
 
+import com.example.neobis.dto.UserDto;
 import com.example.neobis.entity.User;
 import com.example.neobis.repository.UserRepo;
-
+import com.example.neobis.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,13 +19,14 @@ public class UserServiceImpl implements UserService {
     private final UserRepo userRepo;
 
     @Override
-    public void save(User user) {
+    public ResponseEntity<User> save(User user) {
         Optional<User> userByEmail = userRepo.findUserByEmail(user.getEmail());
         if (userByEmail.isPresent()) {
             throw new IllegalStateException("This email " + user.getEmail() + " is already exists!");
         }
         userRepo.save(user);
         System.out.println("New user saved!");
+        return ResponseEntity.status(HttpStatus.CREATED).body(userRepo.save(user));
     }
 
     @Override
@@ -32,11 +36,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User update(User updatedUser) {
-        Long userId = updatedUser.getId();
+    public ResponseEntity<User> update(Long userId, UserDto updatedUser) {
         User userInDB = userRepo.findById(userId)
                 .orElseThrow(() -> new IllegalStateException("User with id " + userId + " does not exist!"));
-
         userInDB.setName(updatedUser.getName());
         userInDB.setSurname(updatedUser.getSurname());
         userInDB.setEmail(updatedUser.getEmail());
@@ -45,17 +47,16 @@ public class UserServiceImpl implements UserService {
         userRepo.save(userInDB);
 
         System.out.println("User with id " + userId + " updated!");
-        return userInDB;
+        return ResponseEntity.ok(userInDB);
     }
 
     @Override
-    public void deleteUser(Long id) {
-        boolean existsById = userRepo.existsById(id);
-        if (!existsById) {
-            throw new IllegalStateException("User with id " + id + " does not exist!");
+    public ResponseEntity<String> deleteUser(Long id) {
+        if (userRepo.findById(id).isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with id " + id + " does not exist!");
         }
         userRepo.deleteById(id);
-        System.out.println("User with id " + id + " is deleted!");
+        return ResponseEntity.ok("User with id " + id + " is deleted!");
     }
 
     @Override

@@ -7,7 +7,8 @@ import lombok.*;
 @Table(name = "cars")
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter @Setter
+@Getter
+@Setter
 @ToString
 public class Car {
     @Id

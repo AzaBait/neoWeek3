@@ -1,13 +1,16 @@
 package com.example.neobis.controller;
 
+import com.example.neobis.dto.UserDto;
 import com.example.neobis.entity.User;
+import com.example.neobis.mapper.UserMapper;
 import com.example.neobis.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @RestController
@@ -16,29 +19,40 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
+    private final UserMapper userMapper;
+
     @GetMapping("/list")
-    public List<User> getAll() {
-        return userService.getAllUsers();
+    public ResponseEntity<List<UserDto>> getAll() {
+        List<UserDto> userDtos = userMapper.entitiesToDtos(userService.getAllUsers());
+        return ResponseEntity.ok().body(userDtos);
     }
+
     @PostMapping("/save")
-    public void saveUser(@Validated @RequestBody User user) {
-        userService.save(user);
+    public ResponseEntity<User> saveUser(@Validated @RequestBody UserDto userDto) {
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(userMapper.dtoToEntity(userDto)).getBody());
     }
 
     @GetMapping("/{id}")
-    public Optional<User> getUserById(@PathVariable Long id) {
-
-        return userService.getById(id);
+    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
+        return userService.getById(id)
+                .map(user -> ResponseEntity.ok(userMapper.entityToDto(user)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public User update(@Validated @PathVariable Long id, @RequestBody User user) {
-
-        return userService.update(user);
+    public ResponseEntity<UserDto> update(@Validated @PathVariable Long id, @RequestBody UserDto userDto) {
+        User updatedUser = userService.update(id, userDto).getBody();
+        if (updatedUser != null) {
+            UserDto userDto1 = userMapper.entityToDto(updatedUser);
+            return ResponseEntity.ok(userDto1);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUserById(@PathVariable Long id) {
-        userService.deleteUser(id);
+    public ResponseEntity<String> deleteUserById(@PathVariable Long id) {
+        return userService.deleteUser(id);
     }
 };

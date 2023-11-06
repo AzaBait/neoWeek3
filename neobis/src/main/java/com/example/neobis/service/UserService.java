@@ -1,19 +1,21 @@
 package com.example.neobis.service;
 
+import com.example.neobis.dto.UserDto;
 import com.example.neobis.entity.User;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
 
-    void save(User user);
+    ResponseEntity<User> save(User user);
 
     Optional<User> getById(Long id);
 
-    User update(User user);
+    ResponseEntity<User> update(Long id, UserDto user);
 
-    void deleteUser(Long id);
+    ResponseEntity<String> deleteUser(Long id);
 
     List<User> getAllUsers();
 }
