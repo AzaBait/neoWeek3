@@ -1,9 +1,9 @@
 package com.example.neobis.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-
 
 import java.time.LocalDateTime;
 
@@ -18,7 +18,10 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long customerID;
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "userId", referencedColumnName = "id")
+    private User userId;
     private LocalDateTime orderDate;
 
     @PrePersist

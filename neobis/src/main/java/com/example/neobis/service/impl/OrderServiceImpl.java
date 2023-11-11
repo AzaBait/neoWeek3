@@ -35,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
     public ResponseEntity<Order> update(Long ordeIid, OrderDto updatedOrder) {
         Order orderInDB = orderRepo.findById(ordeIid)
                 .orElseThrow(() -> new IllegalStateException("Car with id " + ordeIid + " does not exist!"));
-        orderInDB.setCustomerID(updatedOrder.getCustomerID());
+        orderInDB.setUserId(updatedOrder.getUserId());
         orderInDB.setOrderDate(updatedOrder.getOrderDate());
         orderRepo.save(orderInDB);
         System.out.println("Car with id " + ordeIid + " updated!");

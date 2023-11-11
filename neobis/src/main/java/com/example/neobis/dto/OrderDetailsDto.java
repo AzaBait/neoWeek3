@@ -1,5 +1,7 @@
 package com.example.neobis.dto;
 
+import com.example.neobis.entity.Car;
+import com.example.neobis.entity.Order;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,8 +14,8 @@ import java.time.LocalDateTime;
 public class OrderDetailsDto {
 
     private Long id;
-    private Long orderId;
-    private Long carId;
+    private Order orderId;
+    private Car carId;
     private double totalPrice;
     private LocalDateTime orderDate;
 }

@@ -1,6 +1,7 @@
 package com.example.neobis.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,8 +19,14 @@ public class OrderDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long orderId;
-    private Long carId;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "orderId", referencedColumnName = "id")
+    private Order orderId;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "carId", referencedColumnName = "id")
+    private Car carId;
     private double totalPrice;
     private LocalDateTime orderDate;
 
