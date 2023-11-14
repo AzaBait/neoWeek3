@@ -37,10 +37,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         Optional<User> user = userRepo.findUserByEmail(email);
         if (user.isPresent()) {
-            logger.info("User found: {}", user.get().getEmail());   //
-            logger.info("Roles: {}", user.get().getRoles());
+//            logger.info("User found: {}", user.get().getEmail());   //
+//            logger.info("Roles: {}", user.get().getRoles());
             Collection<? extends GrantedAuthority> authorities = mapRolesToAuthorities(user.get().getRoles());
-            logger.info("Authorities: {}", authorities);   //
+ //           logger.info("Authorities: {}", authorities);   //
             return new org.springframework.security.core.userdetails.User(
                     user.get().getEmail(),user.get().getPassword(), mapRolesToAuthorities(user.get().getRoles()));
         }
