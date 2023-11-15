@@ -1,6 +1,6 @@
 package com.example.neobis.service;
 
-import com.example.neobis.dto.UserDto;
+import com.example.neobis.dto.SaveUserDto;
 import com.example.neobis.entity.User;
 import org.springframework.http.ResponseEntity;
 
@@ -13,7 +13,7 @@ public interface UserService {
 
     Optional<User> getById(Long id);
 
-    ResponseEntity<User> update(Long id, UserDto user);
+    ResponseEntity<User> update(Long id, SaveUserDto user);
 
     ResponseEntity<String> deleteUser(Long id);
 

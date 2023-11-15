@@ -16,7 +16,6 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +27,6 @@ public class User {
     private String phone;
     @Column(name = "password")
     private String password;
-    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",

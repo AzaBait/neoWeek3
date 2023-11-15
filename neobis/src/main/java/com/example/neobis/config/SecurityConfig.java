@@ -1,5 +1,6 @@
 package com.example.neobis.config;
 
+import com.example.neobis.service.impl.UserDetailsServiceImpl;
 import com.example.neobis.service.impl.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,10 +21,10 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final UserServiceImpl userService;
+    private final UserDetailsServiceImpl userService;
     private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
 
-    public SecurityConfig(UserServiceImpl userService) {
+    public SecurityConfig(UserDetailsServiceImpl userService) {
         this.userService = userService;
     }
 
@@ -35,6 +36,7 @@ public class SecurityConfig {
                 .cors(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(authorize -> authorize
+
                         .requestMatchers("/login")
                         .permitAll()
 
@@ -59,7 +61,6 @@ public class SecurityConfig {
                         .anyRequest()
                         .authenticated()
                 )
-
                 .build();
     }
     @Bean
@@ -74,6 +75,4 @@ public class SecurityConfig {
         logger.debug("Configuring DaoAuthenticationProvider");
         return authenticationProvider;
     }
-
-
 }

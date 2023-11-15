@@ -1,6 +1,6 @@
 package com.example.neobis.service.impl;
 
-import com.example.neobis.dto.UserDto;
+import com.example.neobis.dto.SaveUserDto;
 import com.example.neobis.entity.Role;
 import com.example.neobis.entity.User;
 import com.example.neobis.repository.UserRepo;
@@ -16,46 +16,35 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService {
 
     private final UserRepo userRepo;
+    private final PasswordEncoder encoder;
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     public Optional<User> findUserByEmail(String email) {
         return userRepo.findUserByEmail(email);
     }
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        Optional<User> user = userRepo.findUserByEmail(email);
-        if (user.isPresent()) {
-//            logger.info("User found: {}", user.get().getEmail());   //
-//            logger.info("Roles: {}", user.get().getRoles());
-            Collection<? extends GrantedAuthority> authorities = mapRolesToAuthorities(user.get().getRoles());
- //           logger.info("Authorities: {}", authorities);   //
-            return new org.springframework.security.core.userdetails.User(
-                    user.get().getEmail(),user.get().getPassword(), mapRolesToAuthorities(user.get().getRoles()));
-        }
-        throw new UsernameNotFoundException(String.format("User with '%s' not found!", email));
-    }
-
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Set<Role> roles) {
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
-    }
     @Override
     public ResponseEntity<User> save(User user) {
         Optional<User> userByEmail = userRepo.findUserByEmail(user.getEmail());
         if (userByEmail.isPresent()) {
             throw new IllegalStateException("This email " + user.getEmail() + " is already exists!");
         }
+        user.setPassword(encoder.encode(user.getPassword()));
         User savedUser = userRepo.save(user);
         System.out.println("New user saved!");
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
@@ -68,17 +57,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public ResponseEntity<User> update(Long userId, UserDto updatedUser) {
+    public ResponseEntity<User> update(Long userId, SaveUserDto updatedUser) {
         User userInDB = userRepo.findById(userId)
                 .orElseThrow(() -> new IllegalStateException("User with id " + userId + " does not exist!"));
         userInDB.setName(updatedUser.getName());
         userInDB.setSurname(updatedUser.getSurname());
         userInDB.setEmail(updatedUser.getEmail());
         userInDB.setPhone(updatedUser.getPhone());
+        userInDB.setPassword(encoder.encode(updatedUser.getPassword()));
         userInDB.setRoles(updatedUser.getRoles());
 
         userRepo.save(userInDB);
-
         System.out.println("User with id " + userId + " updated!");
         return ResponseEntity.ok(userInDB);
     }

@@ -1,5 +1,6 @@
 package com.example.neobis.controller;
 
+import com.example.neobis.dto.SaveUserDto;
 import com.example.neobis.dto.UserDto;
 import com.example.neobis.entity.User;
 import com.example.neobis.mapper.UserMapper;
@@ -28,9 +29,10 @@ public class UserController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<User> saveUser(@Validated @RequestBody UserDto userDto) {
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(userMapper.dtoToEntity(userDto)).getBody());
+    public ResponseEntity<UserDto> saveUser(@Validated @RequestBody SaveUserDto saveUserDto) {
+        User savedUser = userService.save(userMapper.saveDtoToEntity(saveUserDto)).getBody();
+        UserDto userDto = userMapper.entityToDto(savedUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userDto);
     }
 
     @GetMapping("/{id}")
@@ -41,7 +43,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDto> update(@Validated @PathVariable Long id, @RequestBody UserDto userDto) {
+    public ResponseEntity<UserDto> update(@Validated @PathVariable Long id, @RequestBody SaveUserDto userDto) {
         User updatedUser = userService.update(id, userDto).getBody();
         if (updatedUser != null) {
             UserDto userDto1 = userMapper.entityToDto(updatedUser);
