@@ -44,7 +44,7 @@ public class SecurityConfig {
                         .authenticated()
 
                         .requestMatchers(HttpMethod.GET, "/api/user/**")
-                        .hasAnyRole("ADMIN", "MANAGER", "USER")
+                        .authenticated()
 
                         .requestMatchers(HttpMethod.POST, "/api/user/save")
                         .hasAnyRole("ADMIN", "MANAGER")

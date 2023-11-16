@@ -21,9 +21,10 @@ public class CarController {
     private final CarMapper carMapper;
 
     @PostMapping("/save")
-    public ResponseEntity<Car> saveCar(@Validated @RequestBody CarDto carDto) {
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(carService.save(carMapper.dtoToEntity(carDto)).getBody());
+    public ResponseEntity<CarDto> saveCar(@Validated @RequestBody CarDto carDto) {
+        Car car = carService.save(carMapper.dtoToEntity(carDto)).getBody();
+        CarDto savedCarDto = carMapper.entityToDto(car);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedCarDto);
     }
 
     @GetMapping("/{id}")

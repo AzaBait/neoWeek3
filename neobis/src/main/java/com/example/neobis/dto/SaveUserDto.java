@@ -1,11 +1,13 @@
 package com.example.neobis.dto;
 
 import com.example.neobis.entity.Role;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.Set;
 
 @Data
+@AllArgsConstructor
 public class SaveUserDto {
 
     private Long id;

@@ -21,9 +21,10 @@ public class OrderController {
     private final OrderMapper orderMapper;
 
     @PostMapping("/save")
-    public ResponseEntity<Order> saveOrder(@Validated @RequestBody OrderDto orderDto) {
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(orderService.save(orderMapper.dtoToEntity(orderDto)).getBody());
+    public ResponseEntity<OrderDto> saveOrder(@Validated @RequestBody OrderDto orderDto) {
+        Order order = orderService.save(orderMapper.dtoToEntity(orderDto)).getBody();
+        OrderDto savedOrderDto = orderMapper.entityToDto(order);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedOrderDto);
     }
 
     @GetMapping("/{id}")

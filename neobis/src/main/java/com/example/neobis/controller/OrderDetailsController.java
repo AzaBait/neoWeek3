@@ -21,10 +21,10 @@ public class OrderDetailsController {
     private final OrderDetailsMapper orderDetailsMapper;
 
     @PostMapping("/save")
-    public ResponseEntity<OrderDetails> saveOrderDetails(@Validated @RequestBody OrderDetailsDto orderDetailsDto) {
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(
-                orderDetailsService.save(orderDetailsMapper.dtoToEntity(orderDetailsDto)).getBody());
+    public ResponseEntity<OrderDetailsDto> saveOrderDetails(@Validated @RequestBody OrderDetailsDto orderDetailsDto) {
+        OrderDetails orderDetails = orderDetailsService.save(orderDetailsMapper.dtoToEntity(orderDetailsDto)).getBody();
+        OrderDetailsDto savedOrderDetailsDto = orderDetailsMapper.entityToDto(orderDetails);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedOrderDetailsDto);
     }
 
     @GetMapping("/{id}")
