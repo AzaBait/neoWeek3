@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+
 @Component
 @RequiredArgsConstructor
 public class JwtTokenFilter extends OncePerRequestFilter {
@@ -33,10 +34,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             jwtToken = header.substring(7);
             try {
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
-            }catch (Exception e) {
+            } catch (Exception e) {
                 throw new RuntimeException("INVALID TOKEN");
             }
-        }if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        }
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
             if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =

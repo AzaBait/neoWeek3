@@ -1,7 +1,6 @@
 package com.example.neobis.dto;
 
 import com.example.neobis.entity.Role;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

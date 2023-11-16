@@ -17,5 +17,6 @@ public interface UserMapper {
     User dtoToEntity(UserDto userDto);
 
     List<UserDto> entitiesToDtos(List<User> users);
+
     User saveDtoToEntity(SaveUserDto userSaveDto);
 }

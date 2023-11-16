@@ -18,18 +18,20 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
     private final UserDetailsServiceImpl userDetailsService;
+
     @Override
     public String authenticateAndGetToken(JwtRequest request) throws Exception {
         authenticate(request.getUsername(), request.getPassword());
         final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
         return jwtTokenUtil.generateToken(userDetails);
     }
+
     private void authenticate(String username, String password) throws Exception {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        }catch (DisabledException e) {
-            throw new Exception("USER DISABLED",e);
-        }catch (BadCredentialsException e) {
+        } catch (DisabledException e) {
+            throw new Exception("USER DISABLED", e);
+        } catch (BadCredentialsException e) {
             throw new Exception("INVALID CREDENTIALS", e);
         }
     }

@@ -32,6 +32,7 @@ class OrderDetailsControllerTest {
     private WebApplicationContext context;
     @Autowired
     private ObjectMapper mapper;
+
     @BeforeEach
     public void setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
@@ -56,7 +57,7 @@ class OrderDetailsControllerTest {
         MvcResult result = mockMvc.perform(get("/api/orderDetails/1"))
                 .andExpect(status().isOk())
                 .andReturn();
-        assertEquals(200,result.getResponse().getStatus());
+        assertEquals(200, result.getResponse().getStatus());
     }
 
     @Test
@@ -68,7 +69,7 @@ class OrderDetailsControllerTest {
         OrderDetails orderDetails = new OrderDetails(0L, order, car, 8700, localDateTime);
         String jsonRequest = mapper.writeValueAsString(orderDetails);
         MvcResult mvcResult = mockMvc.perform(put("/api/orderDetails/1")
-                .content(jsonRequest).contentType(MediaType.APPLICATION_JSON))
+                        .content(jsonRequest).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
         assertEquals(200, mvcResult.getResponse().getStatus());

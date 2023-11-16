@@ -2,10 +2,8 @@ package com.example.neobis.service.impl;
 
 import com.example.neobis.dto.CarDto;
 import com.example.neobis.entity.Car;
-import com.example.neobis.entity.User;
 import com.example.neobis.repository.CarRepo;
 import com.example.neobis.service.CarService;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

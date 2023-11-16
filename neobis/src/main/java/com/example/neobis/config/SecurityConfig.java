@@ -2,10 +2,6 @@ package com.example.neobis.config;
 
 import com.example.neobis.config.jwt.JwtTokenFilter;
 import com.example.neobis.service.impl.UserDetailsServiceImpl;
-import com.example.neobis.service.impl.UserServiceImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -27,6 +23,7 @@ public class SecurityConfig {
 
     private final UserDetailsServiceImpl userService;
     private final JwtTokenFilter jwtTokenFilter;
+
     public SecurityConfig(UserDetailsServiceImpl userService, JwtTokenFilter jwtTokenFilter) {
         this.userService = userService;
         this.jwtTokenFilter = jwtTokenFilter;
@@ -68,10 +65,12 @@ public class SecurityConfig {
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
+
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
@@ -79,6 +78,7 @@ public class SecurityConfig {
         authenticationProvider.setUserDetailsService(userService);
         return authenticationProvider;
     }
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();

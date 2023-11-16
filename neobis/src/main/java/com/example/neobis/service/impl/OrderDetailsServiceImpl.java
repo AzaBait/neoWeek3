@@ -1,7 +1,6 @@
 package com.example.neobis.service.impl;
 
 import com.example.neobis.dto.OrderDetailsDto;
-import com.example.neobis.entity.Car;
 import com.example.neobis.entity.OrderDetails;
 import com.example.neobis.repository.OrderDetailsRepo;
 import com.example.neobis.service.OrderDetailsService;

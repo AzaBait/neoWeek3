@@ -28,6 +28,7 @@ class CarControllerTest {
     private WebApplicationContext context;
     @Autowired
     private ObjectMapper mapper;
+
     @BeforeEach
     public void setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
@@ -39,7 +40,7 @@ class CarControllerTest {
         Car car = new Car(0L, "toyota", "camry", 2001, 9000.0);
         String jsonRequest = mapper.writeValueAsString(car);
         MvcResult result = mockMvc.perform(post("/api/car/save")
-                .content(jsonRequest).contentType(MediaType.APPLICATION_JSON))
+                        .content(jsonRequest).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andReturn();
         assertEquals(201, result.getResponse().getStatus());
@@ -60,7 +61,7 @@ class CarControllerTest {
         Car car = new Car(0L, "toyota", "camry", 2001, 9000.0);
         String jsonRequest = mapper.writeValueAsString(car);
         MvcResult result = mockMvc.perform(put("/api/car/1")
-                .content(jsonRequest).contentType(MediaType.APPLICATION_JSON))
+                        .content(jsonRequest).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
         assertEquals(200, result.getResponse().getStatus());

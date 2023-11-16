@@ -32,10 +32,12 @@ class UserControllerTest {
     private WebApplicationContext context;
     @Autowired
     private ObjectMapper objectMapper;
+
     @BeforeEach
     public void setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
     }
+
     @WithMockUser(username = "authenticatedUser")
     @Test
     void getAll() throws Exception {
@@ -44,19 +46,21 @@ class UserControllerTest {
                 .andExpect(status().isOk()).andReturn();
         assertEquals(200, result.getResponse().getStatus());
     }
+
     @WithMockUser(username = "admin", roles = {"ADMIN", "MANAGER"})
     @Test
     void saveUser() throws Exception {
         Set<Role> roles = new HashSet<>();
         roles.add(new Role(3L, "USER"));
         User user = new User(
-                0L,"taza", "tazaev", "taza@gmail.com", "+996755879654", "aza", roles
+                0L, "taza", "tazaev", "taza@gmail.com", "+996755879654", "aza", roles
         );
         String jsonRequest = objectMapper.writeValueAsString(user);
         MvcResult mvcResult = mockMvc.perform(post("/api/user/save")
                 .content(jsonRequest).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated()).andReturn();
         assertEquals(201, mvcResult.getResponse().getStatus());
     }
+
     @WithMockUser(username = "authenticatedUser")
     @Test
     void getUserById() throws Exception {
@@ -66,6 +70,7 @@ class UserControllerTest {
                 .andReturn();
         assertEquals(200, result.getResponse().getStatus());
     }
+
     @WithMockUser(username = "admin", roles = {"ADMIN", "MANAGER"})
     @Test
     void update() throws Exception {
@@ -76,12 +81,13 @@ class UserControllerTest {
         );
         String jsonRequest = objectMapper.writeValueAsString(user);
         MvcResult result = mockMvc.perform(put("/api/user/{id}", user.getId())
-                .content(jsonRequest).contentType(MediaType.APPLICATION_JSON))
+                        .content(jsonRequest).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
         assertEquals(200, result.getResponse().getStatus());
 
     }
+
     @WithMockUser(username = "admin", roles = "ADMIN")
     @Test
     void deleteUserById() throws Exception {
