@@ -34,7 +34,6 @@ public class SecurityConfig {
 
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(authorize -> authorize
 
@@ -45,7 +44,7 @@ public class SecurityConfig {
                         .authenticated()
 
                         .requestMatchers(HttpMethod.GET, "/api/user/**")
-                        .authenticated()
+                        .hasAnyRole("ADMIN", "MANAGER")
 
                         .requestMatchers(HttpMethod.POST, "/api/user/save")
                         .hasAnyRole("ADMIN", "MANAGER")

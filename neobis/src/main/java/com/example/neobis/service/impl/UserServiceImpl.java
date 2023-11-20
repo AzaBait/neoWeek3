@@ -1,6 +1,7 @@
 package com.example.neobis.service.impl;
 
 import com.example.neobis.dto.SaveUserDto;
+import com.example.neobis.entity.Role;
 import com.example.neobis.entity.User;
 import com.example.neobis.repository.UserRepo;
 import com.example.neobis.service.UserService;
@@ -13,8 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +23,6 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepo userRepo;
     private final PasswordEncoder encoder;
-    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     public Optional<User> findUserByEmail(String email) {
         return userRepo.findUserByEmail(email);

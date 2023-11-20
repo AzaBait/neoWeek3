@@ -21,13 +21,15 @@ public class OrderDetails {
     private Long id;
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "orderId", referencedColumnName = "id")
+    @JoinColumn(name = "order_id", referencedColumnName = "id")
     private Order orderId;
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "carId", referencedColumnName = "id")
+    @JoinColumn(name = "car_id", referencedColumnName = "id")
     private Car carId;
+    @Column(name = "total_price")
     private double totalPrice;
+    @Column(name = "order_date")
     private LocalDateTime orderDate;
 
     @PrePersist

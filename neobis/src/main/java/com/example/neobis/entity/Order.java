@@ -20,8 +20,9 @@ public class Order {
     private Long id;
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "userId", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User userId;
+    @Column(name = "order_date")
     private LocalDateTime orderDate;
 
     @PrePersist

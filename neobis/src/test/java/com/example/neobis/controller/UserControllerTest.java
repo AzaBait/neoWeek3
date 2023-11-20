@@ -61,7 +61,7 @@ class UserControllerTest {
         assertEquals(201, mvcResult.getResponse().getStatus());
     }
 
-    @WithMockUser(username = "authenticatedUser")
+    @WithMockUser(username = "authenticatedUser", roles = {"ADMIN"})
     @Test
     void getUserById() throws Exception {
         Long userId = 2L;
@@ -91,7 +91,7 @@ class UserControllerTest {
     @WithMockUser(username = "admin", roles = "ADMIN")
     @Test
     void deleteUserById() throws Exception {
-        MvcResult result = mockMvc.perform(delete("/api/user/17"))
+        MvcResult result = mockMvc.perform(delete("/api/user/16"))
                 .andExpect(status().isOk())
                 .andReturn();
         assertEquals(200, result.getResponse().getStatus());

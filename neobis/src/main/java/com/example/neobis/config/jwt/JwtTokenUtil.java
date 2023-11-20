@@ -17,7 +17,6 @@ public class JwtTokenUtil {
 
     @Value("${jwt.secret}")
     private String secret;
-    private final long JWT_TOKEN_VALIDITY = 1000 * 60 * 60;
 
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
@@ -46,10 +45,15 @@ public class JwtTokenUtil {
         return doGenerateToken(claims, userDetails.getUsername());
     }
 
-    private String doGenerateToken(Map<String, Object> claims, String subject) {
-        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+    private String doGenerateToken(Map<String, Object> claims, String username) {
+        long JWT_TOKEN_VALIDITY = 1000 * 60 * 60;
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(username)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY))
-                .signWith(SignatureAlgorithm.HS256, secret).compact();
+                .signWith(SignatureAlgorithm.HS256, secret)
+                .compact();
     }
 
     public boolean validateToken(String token, UserDetails userDetails) {
