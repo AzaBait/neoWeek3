@@ -37,7 +37,7 @@ class CarControllerTest {
     @Test
     @WithMockUser("authenticated")
     void saveCar() throws Exception {
-        Car car = new Car(0L, "toyota", "camry", 2001, 9000.0);
+        Car car = new Car(0L, "toyota", "camry", 2003, 9000.0);
         String jsonRequest = mapper.writeValueAsString(car);
         MvcResult result = mockMvc.perform(post("/api/car/save")
                         .content(jsonRequest).contentType(MediaType.APPLICATION_JSON))
@@ -58,9 +58,9 @@ class CarControllerTest {
     @Test
     @WithMockUser("authenticated")
     void update() throws Exception {
-        Car car = new Car(0L, "toyota", "camry", 2001, 9000.0);
+        Car car = new Car(0L, "volkswagen", "golf", 2002, 5000.0);
         String jsonRequest = mapper.writeValueAsString(car);
-        MvcResult result = mockMvc.perform(put("/api/car/1")
+        MvcResult result = mockMvc.perform(put("/api/car/2")
                         .content(jsonRequest).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();

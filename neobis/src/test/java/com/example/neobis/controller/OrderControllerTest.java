@@ -64,7 +64,7 @@ class OrderControllerTest {
     @WithMockUser("authenticated")
     void update() throws Exception {
         User user = new User();
-        LocalDateTime localDateTime = LocalDateTime.of(2023, 11, 15, 01, 33);
+        LocalDateTime localDateTime = LocalDateTime.of(2023, 11, 15, 1, 33);
         Order order = new Order(0L, user, localDateTime);
         String jsonRequest = mapper.writeValueAsString(order);
         MvcResult result = mockMvc.perform(put("/api/order/1")

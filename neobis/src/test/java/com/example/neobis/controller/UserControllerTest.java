@@ -77,7 +77,7 @@ class UserControllerTest {
         Set<Role> roles = new HashSet<>();
         roles.add(new Role(3L, "USER"));
         User user = new User(
-                16L, "Ulan", "gafarov", "gaf@mail.com", "+99654879632", "ulan", roles
+                3L, "Ulan", "gafarov", "gaf@mail.com", "+99654879632", "ulan", roles
         );
         String jsonRequest = objectMapper.writeValueAsString(user);
         MvcResult result = mockMvc.perform(put("/api/user/{id}", user.getId())
@@ -91,7 +91,7 @@ class UserControllerTest {
     @WithMockUser(username = "admin", roles = "ADMIN")
     @Test
     void deleteUserById() throws Exception {
-        MvcResult result = mockMvc.perform(delete("/api/user/16"))
+        MvcResult result = mockMvc.perform(delete("/api/user/3"))
                 .andExpect(status().isOk())
                 .andReturn();
         assertEquals(200, result.getResponse().getStatus());
