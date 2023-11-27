@@ -18,7 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/user")
 @CrossOrigin(origins = "https://snobbish-bath-production.up.railway.app")
-
 public class UserController {
 
     private final UserService userService;
