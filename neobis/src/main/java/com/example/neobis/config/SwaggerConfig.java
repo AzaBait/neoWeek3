@@ -10,12 +10,13 @@ import springfox.documentation.spring.web.plugins.Docket;
 import java.util.Collections;
 
 @Configuration
+
 public class SwaggerConfig {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.example.neobis.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.example.neobis"))
                 .paths(PathSelectors.any())
                 .build()
                 .protocols(Collections.singleton("https"))
