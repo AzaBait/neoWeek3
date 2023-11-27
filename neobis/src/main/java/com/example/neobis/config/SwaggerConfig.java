@@ -15,6 +15,8 @@ public class SwaggerConfig {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.example.neobis"))
                 .paths(PathSelectors.any())
-                .build();
+                .build()
+                .host("snobbish-bath-production.up.railway.app");
+
     }
 }
